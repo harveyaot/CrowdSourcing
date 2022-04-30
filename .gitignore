@@ -1,0 +1,3 @@
+/protos/gen
+./venv
+*.pyc
