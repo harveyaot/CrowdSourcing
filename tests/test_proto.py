@@ -1,24 +1,33 @@
 import unittest
 import json
-from protos.gen.pb_python.task_pb2 import Task
+from protos.gen.pb_python.crowdsourcing_pb2 import TaskPublish, TaskFinish, AnswerType, TextImage
 import google.protobuf.json_format as jf
 
 class TestProto(unittest.TestCase):
 
     def test_build(self):
-        from protos.gen.pb_python.task_pb2 import Task
-        t = Task(name="haha", id=20, publish_time=123445676)
-        self.assertEqual(t.publish_time, 123445676, "Should be 20")
+        t = TaskPublish(name="haha", task_id=21, publish_time=1234456766)
+        self.assertEqual(t.publish_time, 1234456766, "Should be 1234456766")
 
     def test_to_json(self):
-        t = Task(name="haha", id=20, publish_time=123445676)
+        t = TaskPublish(name="haha", task_id=20, publish_time=123445676)
         json_p = jf.MessageToJson(t)
         d = json.loads(json_p)
         self.assertEqual(t.name,d['name'] , "haha")
     
-    def test_nested_type(self):
-        t = Task(name="haha", id=20, publish_time=123445676, request= Task.Request(question="mingju?"))
-        self.assertEqual(t.request.question, "mingju?", "mingju?")
+    def test_taskpublish(self):
+        questions = [TaskPublish.Question(text_images=[TextImage(text="hhhh"),], expected_answer_type=AnswerType.IMAGE),]
+        t = TaskPublish(name="haha", task_id=20, publish_time=123445676, questions=questions)
+        self.assertEqual(t.questions[0].text_images[0].text, "hhhh", "hhhh")
+        self.assertEqual(t.questions[0].expected_answer_type, 1, 1)
+        
+    def test_taskfinish(self):
+        answers = [TaskFinish.Answer(text_images=[TextImage(text="aaaa")], answer_type=AnswerType.TEXT),
+                   TaskFinish.Answer(text_images=[TextImage(text="bbbb")], answer_type=AnswerType.TEXT)
+                    ]
+        t = TaskFinish(task_id=20,answers=answers)
+        self.assertEqual(len(t.answers), 2, "should be 2")
+        self.assertEqual(t.answers[1].text_images[0].text, "bbbb", "bbbb")
 
 if __name__ == '__main__':
     unittest.main()

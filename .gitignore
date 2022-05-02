@@ -1,3 +1,4 @@
 /protos/gen
 ./venv
+./vscode
 *.pyc
