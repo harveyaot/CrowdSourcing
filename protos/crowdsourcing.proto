@@ -13,24 +13,25 @@ enum AnswerType {
 }
 
 message TaskPublish {
-  uint32 task_id = 1;
+  string task_id = 1;
   uint32 publisher_id =2;
   uint32 type = 3;
   string name = 4;
   string description = 5;
   uint32 publish_time = 6;
   uint32 expire_time = 7;
-  uint32 duplicate_num = 8;
+  uint32 left_num = 8;
 
   message Question{
     repeated TextImage text_images = 1;
     AnswerType expected_answer_type = 2;
   }
   repeated Question questions = 9;
+  uint32 price = 10;
 }
 
 message TaskFinish {
-  uint32 task_id = 1;
+  string task_id = 1;
   uint32 worker_id = 2;
   uint32 lat = 4;
   uint32 long = 5;
@@ -43,13 +44,16 @@ message TaskFinish {
 }
 
 message Worker {
-  uint32 id = 1;
+  string id = 1;
   uint32 type = 2;
   string name = 3;
+  uint32 account_id = 4;
+  string account = 5;
 }
 
 message Publisher {
-  uint32 id = 1;
+  string id = 1;
   uint32 type = 2;
   string name = 3;
+  string account_id = 5;
 }

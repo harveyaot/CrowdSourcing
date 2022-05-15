@@ -32,7 +32,7 @@ class TestMongo(unittest.TestCase):
         print(return_d)
         self.assertEqual(return_d['name'], t.name, f"Should be {t.name}")
 
-        return_d = self.col.find_one({'id':rand_id}, {'publishTime'})
+        return_d = self.col.find_one({'id':rand_id}, {'publishTime':1})
         print(return_d)
         self.assertEqual(return_d['publishTime'], t.publish_time, f"Should be {t.publish_time}")
 
